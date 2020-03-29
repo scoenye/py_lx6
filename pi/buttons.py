@@ -28,7 +28,6 @@ class Button:
 
 	def __init__(self, pin):
 		self._pin = pin
-		GPIO.setup(pin, GPIO.out)
 
 	def on(self):
 		"""
