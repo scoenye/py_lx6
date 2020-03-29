@@ -17,28 +17,12 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-
-import sys
-
-from PyQt5.QtWidgets import QApplication, QMainWindow
-
-from ui import panels
+from PyQt5 import QtWidgets
 
 
-class LX6UI(QMainWindow):
+class CenterPanel(QtWidgets.QWidget):
+	"""
+	Controller UI main panel
+	"""
 	def __init__(self):
 		super().__init__()
-		self.center_panel = panels.CenterPanel()
-
-		self.setGeometry(100, 100, 460, 320)        # sized to fit a PiTFT screen
-		self.setWindowTitle('LX6 controller')
-		self.statusBar().showMessage('Ready')
-		self.setCentralWidget(self.center_panel)
-
-
-if __name__ == "__main__":
-	app = QApplication(sys.argv)
-	form = LX6UI()
-	form.show()
-	# without this, the script exits immediately.
-	sys.exit(app.exec_())
