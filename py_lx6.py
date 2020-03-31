@@ -25,6 +25,8 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from pi.buttons import Button
 from ui import panels
 
+from features import LX6
+
 
 class LX6UI(QMainWindow):
 	def __init__(self):
@@ -37,10 +39,10 @@ class LX6UI(QMainWindow):
 		self.setCentralWidget(self.center_panel)
 
 		self.test_near = Button(0)
-		self.center_panel.connect_model('near', self.test_near)
+		self.center_panel.connect_model(LX6.LX_NEAR, self.test_near)
 
 		self.test_far = Button(1)
-		self.center_panel.connect_model('far', self.test_far)
+		self.center_panel.connect_model(LX6.LX_INFTY, self.test_far)
 
 
 if __name__ == "__main__":
