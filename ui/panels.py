@@ -30,25 +30,28 @@ class CenterPanel(QtWidgets.QWidget):
 
 		self.speed_select = QtWidgets.QPushButton('2x - 8x')
 		self.drive_select = QtWidgets.QPushButton('Quartz - Manual')
-		self.near = QtWidgets.QPushButton('Near')
 		self.far = QtWidgets.QPushButton('Far')
 		self.north = QtWidgets.QPushButton('North')
 		self.south = QtWidgets.QPushButton('South')
 		self.east = QtWidgets.QPushButton('East')
 		self.west = QtWidgets.QPushButton('West')
 
+		self._buttons = {
+			'near': QtWidgets.QPushButton('Near')
+		}
+
 		self._assemble_panel()
 
 	def _assemble_panel(self):
 		self.main_layout.addWidget(self.speed_select, 0, 0, 1, 1)
 		self.main_layout.addWidget(self.drive_select, 1, 0, 1, 1)
-		self.main_layout.addWidget(self.near, 2, 0, 1, 1)
+		self.main_layout.addWidget(self._buttons['near'], 2, 0, 1, 1)
 		self.main_layout.addWidget(self.far, 3, 0, 1, 1)
 		self.main_layout.addWidget(self.north, 0, 3, 1, 1)
 		self.main_layout.addWidget(self.south, 2, 3, 1, 1)
 		self.main_layout.addWidget(self.east, 1, 2, 1, 1)
 		self.main_layout.addWidget(self.west, 1, 4, 1, 1)
 
-	def connect_model(self, model):
-		self.near.pressed.connect(model.on)
-		self.near.released.connect(model.off)
+	def connect_model(self, event, model):
+		self._buttons[event].pressed.connect(model.on)
+		self._buttons[event].released.connect(model.off)

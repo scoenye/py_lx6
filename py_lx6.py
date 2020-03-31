@@ -37,7 +37,7 @@ class LX6UI(QMainWindow):
 		self.setCentralWidget(self.center_panel)
 
 		self.test_button = Button(0)
-		self.center_panel.connect_model(self.test_button)
+		self.center_panel.connect_model('near', self.test_button)
 
 
 if __name__ == "__main__":
