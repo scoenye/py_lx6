@@ -22,6 +22,8 @@ from abc import ABC, abstractmethod
 
 import RPi.GPIO as GPIO
 
+from features import LX6
+
 
 class Board(ABC):
 	"""
@@ -30,7 +32,7 @@ class Board(ABC):
 	Shut down the Raspberry Pi on exit
 	"""
 
-	LX_pins = []
+	LX_pins = {}
 
 	@abstractmethod
 	def initialize(self):
@@ -51,23 +53,22 @@ class BoardV2(Board):
 	"""
 	LX6 v2 board
 	"""
-
-	LX_NEAR = 18
-	LX_INFTY = 23
-	LX_QRTZ = 24
-	LX_SPEED = 25
-	LX_NORTH = 12
-	LX_SOUTH = 16
-	LX_EAST = 20
-	LX_WEST = 21
-
-	LX_pins = [LX_NEAR, LX_INFTY, LX_QRTZ, LX_SPEED, LX_NORTH, LX_SOUTH, LX_EAST, LX_WEST]
+	LX_pins = {
+		LX6.LX_NEAR: 18,
+		LX6.LX_INFTY: 23,
+		LX6.LX_DRIVE: 24,
+		LX6.LX_SPEED: 25,
+		LX6.LX_NORTH: 12,
+		LX6.LX_SOUTH: 16,
+		LX6.LX_EAST: 20,
+		LX6.LX_WEST: 21
+	}
 
 	def initialize(self):
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setwarnings(False)
 
-		for pin in self.LX_pins:
+		for pin in self.LX_pins.values():
 			GPIO.setup(pin, GPIO.OUT)
 			GPIO.output(pin, 1)  # LX6 contacts are NC: 1 turns signal off
 
