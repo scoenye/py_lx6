@@ -36,8 +36,11 @@ class LX6UI(QMainWindow):
 		self.statusBar().showMessage('Ready')
 		self.setCentralWidget(self.center_panel)
 
-		self.test_button = Button(0)
-		self.center_panel.connect_model('near', self.test_button)
+		self.test_near = Button(0)
+		self.center_panel.connect_model('near', self.test_near)
+
+		self.test_far = Button(1)
+		self.center_panel.connect_model('far', self.test_far)
 
 
 if __name__ == "__main__":

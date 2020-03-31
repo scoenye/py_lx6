@@ -28,29 +28,28 @@ class CenterPanel(QtWidgets.QWidget):
 		super().__init__()
 		self.main_layout = QtWidgets.QGridLayout(self)
 
-		self.speed_select = QtWidgets.QPushButton('2x - 8x')
-		self.drive_select = QtWidgets.QPushButton('Quartz - Manual')
-		self.far = QtWidgets.QPushButton('Far')
-		self.north = QtWidgets.QPushButton('North')
-		self.south = QtWidgets.QPushButton('South')
-		self.east = QtWidgets.QPushButton('East')
-		self.west = QtWidgets.QPushButton('West')
-
 		self._buttons = {
-			'near': QtWidgets.QPushButton('Near')
+			'speed': QtWidgets.QPushButton('2x - 8x'),
+			'drive': QtWidgets.QPushButton('Quartz - Manual'),
+			'near': QtWidgets.QPushButton('Near'),
+			'far': QtWidgets.QPushButton('Far'),
+			'north': QtWidgets.QPushButton('North'),
+			'south': QtWidgets.QPushButton('South'),
+			'east': QtWidgets.QPushButton('East'),
+			'west': QtWidgets.QPushButton('West')
 		}
 
 		self._assemble_panel()
 
 	def _assemble_panel(self):
-		self.main_layout.addWidget(self.speed_select, 0, 0, 1, 1)
-		self.main_layout.addWidget(self.drive_select, 1, 0, 1, 1)
+		self.main_layout.addWidget(self._buttons['speed'], 0, 0, 1, 1)
+		self.main_layout.addWidget(self._buttons['drive'], 1, 0, 1, 1)
 		self.main_layout.addWidget(self._buttons['near'], 2, 0, 1, 1)
-		self.main_layout.addWidget(self.far, 3, 0, 1, 1)
-		self.main_layout.addWidget(self.north, 0, 3, 1, 1)
-		self.main_layout.addWidget(self.south, 2, 3, 1, 1)
-		self.main_layout.addWidget(self.east, 1, 2, 1, 1)
-		self.main_layout.addWidget(self.west, 1, 4, 1, 1)
+		self.main_layout.addWidget(self._buttons['far'], 3, 0, 1, 1)
+		self.main_layout.addWidget(self._buttons['north'], 0, 3, 1, 1)
+		self.main_layout.addWidget(self._buttons['south'], 2, 3, 1, 1)
+		self.main_layout.addWidget(self._buttons['east'], 1, 2, 1, 1)
+		self.main_layout.addWidget(self._buttons['west'], 1, 4, 1, 1)
 
 	def connect_model(self, event, model):
 		self._buttons[event].pressed.connect(model.on)
