@@ -22,6 +22,7 @@ import sys
 
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
+from pi.buttons import Button
 from ui import panels
 
 
@@ -34,6 +35,9 @@ class LX6UI(QMainWindow):
 		self.setWindowTitle('LX6 controller')
 		self.statusBar().showMessage('Ready')
 		self.setCentralWidget(self.center_panel)
+
+		self.test_button = Button(0)
+		self.center_panel.connect_model(self.test_button)
 
 
 if __name__ == "__main__":

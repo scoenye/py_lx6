@@ -38,7 +38,6 @@ class CenterPanel(QtWidgets.QWidget):
 		self.west = QtWidgets.QPushButton('West')
 
 		self._assemble_panel()
-		self._connect_signals()
 
 	def _assemble_panel(self):
 		self.main_layout.addWidget(self.speed_select, 0, 0, 1, 1)
@@ -50,15 +49,6 @@ class CenterPanel(QtWidgets.QWidget):
 		self.main_layout.addWidget(self.east, 1, 2, 1, 1)
 		self.main_layout.addWidget(self.west, 1, 4, 1, 1)
 
-	def _pressed_near(self):
-		print('Near pressed')
-
-	def _released_near(self):
-		print('Near released')
-
-	def _connect_signals(self):
-		self.near.pressed.connect(self._pressed_near)
-		self.near.released.connect(self._released_near)
-
-	def connect_model(self, event, model):
-		self.near.clicked.connect(model)
+	def connect_model(self, model):
+		self.near.pressed.connect(model.on)
+		self.near.released.connect(model.off)
