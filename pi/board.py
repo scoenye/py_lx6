@@ -70,7 +70,7 @@ class BoardV2(Board):
 
 		for pin in self.LX_pins.values():
 			GPIO.setup(pin, GPIO.OUT)
-			GPIO.output(pin, 1)  # LX6 contacts are NC: 1 turns signal off
+			GPIO.output(pin, 0)  # LX6 contacts are NC: 1 turns signal off
 
 	def shutdown(self):
 		GPIO.cleanup()
