@@ -50,6 +50,9 @@ class ButtonPair:
 	def __init__(self, pin1, pin2):
 		self._buttons = (Button(pin1), Button(pin2))
 
+	def __getitem__(self, item):
+		return self._buttons[item]
+
 	def on(self, button):
 		"""
 		Turn a button on, The other button will be turned off
