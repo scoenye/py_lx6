@@ -37,3 +37,10 @@ class Controller:
 		self._speed = Button(board.LX_pins[LX6.LX_SPEED])
 		self._drive = Button(board.LX_pins[LX6.LX_DRIVE])
 
+	def connect_gui(self, ui):
+		"""
+		Connect the controller's buttons to the interface
+		:param ui: user interface instance
+		:return:
+		"""
+		ui.connect_model(LX6.LX_DRIVE, self._drive)

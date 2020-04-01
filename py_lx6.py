@@ -22,14 +22,13 @@ import sys
 
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
-from pi.buttons import Button
+from lx6.controller import Controller
+from pi.board import BoardV2
 from ui import panels
-
-from features import LX6
 
 
 class LX6UI(QMainWindow):
-	def __init__(self):
+	def __init__(self, controller):
 		super().__init__()
 		self.center_panel = panels.CenterPanel()
 
@@ -38,16 +37,25 @@ class LX6UI(QMainWindow):
 		self.statusBar().showMessage('Ready')
 		self.setCentralWidget(self.center_panel)
 
-		self.test_near = Button(0)
-		self.center_panel.connect_model(LX6.LX_NEAR, self.test_near)
+		controller.connect_gui(self)
 
-		self.test_far = Button(1)
-		self.center_panel.connect_model(LX6.LX_INFTY, self.test_far)
+	def connect_model(self, event, model):
+		"""
+		Connect the model event handlers to the user interface
+		:param event: the event to connect
+		:param model: the model to connect to
+		:return:
+		"""
+		# Delegate to the center panel. All buttons live there.
+		self.center_panel.connect_model(event, model)
 
 
 if __name__ == "__main__":
 	app = QApplication(sys.argv)
-	form = LX6UI()
+	board = BoardV2()
+	controller = Controller(board)
+	form = LX6UI(controller)
+
 	form.show()
 	# without this, the script exits immediately.
 	sys.exit(app.exec_())
