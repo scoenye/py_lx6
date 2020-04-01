@@ -19,7 +19,7 @@
 """
 from PyQt5 import QtWidgets
 
-from features import LX6
+from features import LX6, AUX
 
 
 class CenterPanel(QtWidgets.QWidget):
@@ -38,7 +38,8 @@ class CenterPanel(QtWidgets.QWidget):
 			LX6.LX_NORTH: QtWidgets.QPushButton('North'),
 			LX6.LX_SOUTH: QtWidgets.QPushButton('South'),
 			LX6.LX_EAST: QtWidgets.QPushButton('East'),
-			LX6.LX_WEST: QtWidgets.QPushButton('West')
+			LX6.LX_WEST: QtWidgets.QPushButton('West'),
+			AUX.CAM_SHUTTER: QtWidgets.QPushButton('Click!')
 		}
 
 		self._assemble_panel()
@@ -52,6 +53,7 @@ class CenterPanel(QtWidgets.QWidget):
 		self.main_layout.addWidget(self._buttons[LX6.LX_SOUTH], 2, 3, 1, 1)
 		self.main_layout.addWidget(self._buttons[LX6.LX_EAST], 1, 2, 1, 1)
 		self.main_layout.addWidget(self._buttons[LX6.LX_WEST], 1, 4, 1, 1)
+		self.main_layout.addWidget(self._buttons[AUX.CAM_SHUTTER], 3, 4, 1, 1)
 
 	def connect_model(self, event, model):
 		self._buttons[event].pressed.connect(model.on)

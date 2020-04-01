@@ -22,13 +22,14 @@ import sys
 
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
+from aux.camera import Camera
 from lx6.controller import Controller
 from pi.board import BoardV2
 from ui import panels
 
 
 class LX6UI(QMainWindow):
-	def __init__(self, controller):
+	def __init__(self, hardware):
 		super().__init__()
 		self.center_panel = panels.CenterPanel()
 
@@ -37,7 +38,8 @@ class LX6UI(QMainWindow):
 		self.statusBar().showMessage('Ready')
 		self.setCentralWidget(self.center_panel)
 
-		controller.connect_gui(self)
+		for part in hardware:
+			part.connect_gui(self)
 
 	def connect_model(self, event, model):
 		"""
@@ -55,7 +57,9 @@ if __name__ == "__main__":
 	board = BoardV2()
 	board.initialize()
 	controller = Controller(board)
-	form = LX6UI(controller)
+	camera = Camera(board)
+
+	form = LX6UI([controller, camera])
 
 	form.show()
 
