@@ -17,6 +17,7 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+from features import LX6
 from pi.buttons import Button, ButtonPair
 
 
@@ -30,9 +31,9 @@ class Controller:
 		"""
 		self._board = board
 
-		self._east_west = ButtonPair()
-		self._north_south = ButtonPair()
-		self._near_far = ButtonPair()
-		self._speed = Button()
-		self._drive = Button()
+		self._east_west = ButtonPair(board.LX_pins[LX6.LX_EAST], board.LX_pins[LX6.LX_WEST])
+		self._north_south = ButtonPair(board.LX_pins[LX6.LX_NORTH], board.LX_pins[LX6.LX_SOUTH])
+		self._near_far = ButtonPair(board.LX_pins[LX6.LX_NEAR], board.LX_pins[LX6.LX_INFTY])
+		self._speed = Button(board.LX_pins[LX6.LX_SPEED])
+		self._drive = Button(board.LX_pins[LX6.LX_DRIVE])
 
