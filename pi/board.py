@@ -22,7 +22,7 @@ from abc import ABC, abstractmethod
 
 import RPi.GPIO as GPIO
 
-from features import LX6
+from features import LX6, AUX
 
 
 class Board(ABC):
@@ -33,6 +33,7 @@ class Board(ABC):
 	"""
 
 	LX_pins = {}
+	camera_pins = {}
 
 	@abstractmethod
 	def initialize(self):
@@ -62,6 +63,10 @@ class BoardV2(Board):
 		LX6.LX_SOUTH: 16,
 		LX6.LX_EAST: 20,
 		LX6.LX_WEST: 21
+	}
+
+	camera_pins = {
+		AUX.CAM_SHUTTER: 17
 	}
 
 	def initialize(self):

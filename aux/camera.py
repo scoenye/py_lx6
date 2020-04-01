@@ -17,29 +17,21 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-
-# Features provided by the controller board. Separate module to avoid circular imports
-
-from enum import Enum
+from features import AUX
+from pi.buttons import Button
 
 
-class LX6(Enum):
+class Camera:
 	"""
-	Meade LX-6 hand controller buttons.
+	External camera - NOT the Pi (NoIR) optional direct connect camera
 	"""
-	LX_NEAR = 0
-	LX_INFTY = 1
-	LX_DRIVE = 2
-	LX_SPEED = 3
-	LX_NORTH = 4
-	LX_SOUTH = 5
-	LX_EAST = 6
-	LX_WEST = 7
+	def __init__(self, board):
+		self._shutter = Button(board.camera_pins[AUX.CAM_SHUTTER])
 
-
-class AUX(Enum):
-	"""
-	Still camera buttons
-	"""
-	# Keep out of range of other feature sets so there are no collisions if boards/controllers/UIs combine features.
-	CAM_SHUTTER = 128		# Original purpose of the optocoupler connection
+	def connect_gui(self, ui):
+		"""
+		Connect the camera's buttons to the interface
+		:param ui: user interface instance
+		:return:
+		"""
+		ui.connect_model(AUX.CAM_SHUTTER, self._shutter)
