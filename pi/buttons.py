@@ -42,30 +42,44 @@ class Button:
 		GPIO.output(self._pin, 0)
 
 
+class JoinedButton(Button):
+	"""
+	On/off button which can turn a paired button off
+	"""
+	def __init__(self, pin):
+		"""
+		:param pin: GPIO pin controlled by this button
+		"""
+		super().__init__(pin)
+		self._other = None
+
+	def join(self, other):
+		"""
+		Connect the paired button. This method must be called before turning the button on.
+		:param other:
+		:return:
+		"""
+		self._other = other
+
+	def on(self):
+		"""
+		Turn off the other button and turn off this one,
+		:return:
+		"""
+		# TODO: raise explanatory exception on missing _other
+		self._other.off()
+		super().on()
+
+
 class ButtonPair:
 	"""
 	Two buttons working in tandem. Both can be off but only one can be on at any time.
 	"""
 
 	def __init__(self, pin1, pin2):
-		self._buttons = (Button(pin1), Button(pin2))
+		self._buttons = (JoinedButton(pin1), JoinedButton(pin2))
+		self._buttons[0].join(self._buttons[1])
+		self._buttons[1].join(self._buttons[0])
 
 	def __getitem__(self, item):
 		return self._buttons[item]
-
-	def on(self, button):
-		"""
-		Turn a button on, The other button will be turned off
-		:param button: which button to turn on (0, 1)
-		:return:
-		"""
-		self._buttons[1-button].off()
-		self._buttons[button].on()
-
-	def off(self, button):
-		"""
-		Turn a button off.
-		:param button: which button to turn off.
-		:return:
-		"""
-		self._buttons[button].off()
