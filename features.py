@@ -20,15 +20,15 @@
 
 # Features provided by the controller board. Separate module to avoid circular imports
 
-from enum import Enum,auto
+from enum import Enum
 
 
 class LX6(Enum):
-	LX_NEAR = auto()
-	LX_INFTY = auto()
-	LX_DRIVE = auto()
-	LX_SPEED = auto()
-	LX_NORTH = auto()
-	LX_SOUTH = auto()
-	LX_EAST = auto()
-	LX_WEST = auto()
+	LX_NEAR = 0
+	LX_INFTY = 1
+	LX_DRIVE = 2
+	LX_SPEED = 3
+	LX_NORTH = 4
+	LX_SOUTH = 5
+	LX_EAST = 6
+	LX_WEST = 7
