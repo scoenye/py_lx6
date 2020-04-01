@@ -53,9 +53,15 @@ class LX6UI(QMainWindow):
 if __name__ == "__main__":
 	app = QApplication(sys.argv)
 	board = BoardV2()
+	board.initialize()
 	controller = Controller(board)
 	form = LX6UI(controller)
 
 	form.show()
-	# without this, the script exits immediately.
-	sys.exit(app.exec_())
+
+	try:
+		result = app.exec_()
+	finally:
+		board.shutdown()
+
+	sys.exit(result)
