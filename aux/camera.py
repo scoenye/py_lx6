@@ -26,7 +26,7 @@ class Camera:
 	External camera - NOT the Pi (NoIR) optional direct connect camera
 	"""
 	def __init__(self, board):
-		self._shutter = Button(board.camera_pins[AUX.CAM_SHUTTER])
+		self._shutter = Button(board.aux_pins[AUX.CAM_SHUTTER])
 
 	def connect_gui(self, ui):
 		"""

@@ -33,7 +33,7 @@ class Board(ABC):
 	"""
 
 	LX_pins = {}
-	camera_pins = {}
+	aux_pins = {}
 
 	@abstractmethod
 	def initialize(self):
@@ -65,7 +65,7 @@ class BoardV2(Board):
 		LX6.LX_WEST: 21
 	}
 
-	camera_pins = {
+	aux_pins = {
 		AUX.CAM_SHUTTER: 17
 	}
 
@@ -75,7 +75,11 @@ class BoardV2(Board):
 
 		for pin in self.LX_pins.values():
 			GPIO.setup(pin, GPIO.OUT)
+			# This to stop the inputs from floating
 			GPIO.output(pin, 0)  # Board was modified to use NO instead of the NC used by the LX6
+
+		for pin in self.aux_pins.values():
+			GPIO.setup(pin, GPIO.OUT)
 
 	def shutdown(self):
 		GPIO.cleanup()
