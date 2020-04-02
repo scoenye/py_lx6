@@ -42,6 +42,8 @@ class CenterPanel(QtWidgets.QWidget):
 			AUX.CAM_SHUTTER: QtWidgets.QPushButton('Click!')
 		}
 
+		self._buttons[LX6.LX_SPEED].setCheckable(True)
+
 		self._assemble_panel()
 
 	def _assemble_panel(self):
