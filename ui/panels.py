@@ -58,5 +58,10 @@ class CenterPanel(QtWidgets.QWidget):
 		self.main_layout.addWidget(self._buttons[AUX.CAM_SHUTTER], 3, 4, 1, 1)
 
 	def connect_model(self, event, model):
-		self._buttons[event].pressed.connect(model.on)
-		self._buttons[event].released.connect(model.off)
+		button = self._buttons[event]
+
+		if button.isCheckable():
+			button.pressed.connect(model.toggle)
+		else:
+			button.pressed.connect(model.on)
+			button.released.connect(model.off)
