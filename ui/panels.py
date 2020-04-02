@@ -43,6 +43,7 @@ class CenterPanel(QtWidgets.QWidget):
 		}
 
 		self._buttons[LX6.LX_SPEED].setCheckable(True)
+		self._buttons[LX6.LX_DRIVE].setCheckable(True)
 
 		self._assemble_panel()
 
