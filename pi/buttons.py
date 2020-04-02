@@ -28,18 +28,33 @@ class Button:
 
 	def __init__(self, pin):
 		self._pin = pin
+		self._state = 0
+
+	def _output(self):
+		# Set the GPIO pin according to the button state
+		GPIO.output(self._pin, self._state)
 
 	def on(self):
 		"""
 		Press the button
 		"""
-		GPIO.output(self._pin, 1)
+		self._state = 1
+		self._output()
 
 	def off(self):
 		"""
 		Release the button
 		"""
-		GPIO.output(self._pin, 0)
+		self._state = 0
+		self._output()
+
+	def toggle(self):
+		"""
+		Switch the state of the button
+		:return:
+		"""
+		self._state = 1 - self._state
+		self._output()
 
 
 class JoinedButton(Button):
@@ -69,6 +84,17 @@ class JoinedButton(Button):
 		# TODO: raise explanatory exception on missing _other
 		self._other.off()
 		super().on()
+
+	def toggle(self):
+		"""
+		Toggle the button state. Turns off the other button in case this one goes high.
+		:return:
+		"""
+		if self._state == 0:		# We're going high, turn off the other button.
+			self._other.off()
+			self.on()
+		else:
+			self.off()
 
 
 class ButtonPair:
