@@ -66,3 +66,27 @@ class CenterPanel(QtWidgets.QWidget):
 		else:
 			button.pressed.connect(model.on)
 			button.released.connect(model.off)
+
+
+class LX6UI(QtWidgets.QMainWindow):
+	def __init__(self, hardware):
+		super().__init__()
+		self.center_panel = CenterPanel()
+
+		self.setGeometry(100, 100, 460, 320)        # sized to fit a PiTFT screen
+		self.setWindowTitle('LX6 controller')
+		self.statusBar().showMessage('Ready')
+		self.setCentralWidget(self.center_panel)
+
+		for part in hardware:
+			part.connect_gui(self)
+
+	def connect_model(self, event, model):
+		"""
+		Connect the model event handlers to the user interface
+		:param event: the event to connect
+		:param model: the model to connect to
+		:return:
+		"""
+		# Delegate to the center panel. All buttons live there.
+		self.center_panel.connect_model(event, model)

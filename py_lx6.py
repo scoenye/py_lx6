@@ -20,36 +20,14 @@
 
 import sys
 
+from time import sleep
+
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
 from aux.camera import Camera
 from lx6.controller import Controller
 from pi.board import BoardV2
-from ui import panels
-
-
-class LX6UI(QMainWindow):
-	def __init__(self, hardware):
-		super().__init__()
-		self.center_panel = panels.CenterPanel()
-
-		self.setGeometry(100, 100, 460, 320)        # sized to fit a PiTFT screen
-		self.setWindowTitle('LX6 controller')
-		self.statusBar().showMessage('Ready')
-		self.setCentralWidget(self.center_panel)
-
-		for part in hardware:
-			part.connect_gui(self)
-
-	def connect_model(self, event, model):
-		"""
-		Connect the model event handlers to the user interface
-		:param event: the event to connect
-		:param model: the model to connect to
-		:return:
-		"""
-		# Delegate to the center panel. All buttons live there.
-		self.center_panel.connect_model(event, model)
+from ui.panels import LX6UI
 
 
 if __name__ == "__main__":
