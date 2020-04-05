@@ -68,6 +68,24 @@ class ManualControlPanel(QtWidgets.QWidget):
 			button.released.connect(model.off)
 
 
+class ScriptControlPanel(QtWidgets.QWidget):
+	"""
+	Control scripts launch panel
+	"""
+	def __init__(self):
+		super().__init__()
+		self.main_layout = QtWidgets.QGridLayout(self)
+
+		self._buttons = {
+			'align': QtWidgets.QPushButton('Align')
+		}
+
+		self._assemble_panel()
+
+	def _assemble_panel(self):
+		self.main_layout.addWidget(self._buttons['align'], 0, 0, 1, 1)
+
+
 class LX6UI(QtWidgets.QMainWindow):
 	def __init__(self, hardware):
 		super().__init__()
@@ -85,6 +103,7 @@ class LX6UI(QtWidgets.QMainWindow):
 	def _create_toolbar(self):
 		toolbar = self.addToolBar('Test')
 		manual = toolbar.addAction('Manual')
+		manual.triggered.connect(self._select_manual_panel)
 
 	def _select_manual_panel(self):
 		# Set the manual control panel as the active center panel
