@@ -71,15 +71,24 @@ class ManualControlPanel(QtWidgets.QWidget):
 class LX6UI(QtWidgets.QMainWindow):
 	def __init__(self, hardware):
 		super().__init__()
-		self.center_panel = ManualControlPanel()
+		self.manual_control_panel = ManualControlPanel()
 
 		self.setGeometry(100, 100, 460, 320)        # sized to fit a PiTFT screen
 		self.setWindowTitle('LX6 controller')
 		self.statusBar().showMessage('Ready')
-		self.setCentralWidget(self.center_panel)
+		self.setCentralWidget(self.manual_control_panel)
+		self._create_toolbar()
 
 		for part in hardware:
 			part.connect_gui(self)
+
+	def _create_toolbar(self):
+		toolbar = self.addToolBar('Test')
+		manual = toolbar.addAction('Manual')
+
+	def _select_manual_panel(self):
+		# Set the manual control panel as the active center panel
+		self.setCentralWidget(self.manual_control_panel)
 
 	def connect_model(self, event, model):
 		"""
@@ -89,4 +98,4 @@ class LX6UI(QtWidgets.QMainWindow):
 		:return:
 		"""
 		# Delegate to the center panel. All buttons live there.
-		self.center_panel.connect_model(event, model)
+		self.manual_control_panel.connect_model(event, model)
