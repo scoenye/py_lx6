@@ -20,6 +20,7 @@
 from PyQt5 import QtWidgets
 
 from features import LX6, AUX
+from lx6.automate import DriftAlign
 
 
 class ManualControlPanel(QtWidgets.QWidget):
@@ -75,15 +76,27 @@ class ScriptControlPanel(QtWidgets.QWidget):
 	def __init__(self):
 		super().__init__()
 		self.main_layout = QtWidgets.QGridLayout(self)
+		self._board = None
 
 		self._buttons = {
 			'align': QtWidgets.QPushButton('Align')
 		}
 
 		self._assemble_panel()
+		self._connect_events()
 
 	def _assemble_panel(self):
 		self.main_layout.addWidget(self._buttons['align'], 0, 0, 1, 1)
+
+	def _connect_events(self):
+		self._buttons['align'].clicked.connect(self._execute_drift_align)
+
+	def _execute_drift_align(self):
+		align_script = DriftAlign(self._board)
+		align_script.execute(exposure=60)
+
+	def connect_automate(self, board):
+		self._board = board
 
 
 class LX6UI(QtWidgets.QMainWindow):
@@ -128,3 +141,11 @@ class LX6UI(QtWidgets.QMainWindow):
 		"""
 		# Delegate to the center panel. All buttons live there.
 		self.manual_control_panel.connect_model(event, model)
+
+	def connect_automate(self, board):
+		"""
+		Connect the script handlers to the user interface
+		:param board: Instance of Board which will be controlled by the script
+		:return:
+		"""
+		self.scripted_control_panel.connect_automate(board)

@@ -38,6 +38,7 @@ if __name__ == "__main__":
 	camera = Camera(board)
 
 	form = LX6UI([controller, camera])
+	form.connect_automate(board)
 
 	form.show()
 

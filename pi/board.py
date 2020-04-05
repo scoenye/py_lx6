@@ -49,6 +49,15 @@ class Board(ABC):
 		:return:
 		"""
 
+	@abstractmethod
+	def command(self, feature, state):
+		"""
+		External command interface.
+		:param feature: which feature to change
+		:param state: new status for the feature
+		:return:
+		"""
+
 
 class BoardV2(Board):
 	"""
@@ -83,3 +92,12 @@ class BoardV2(Board):
 
 	def shutdown(self):
 		GPIO.cleanup()
+
+	def command(self, feature, status):
+		"""
+		External command interface.
+		:param feature: which feature to change
+		:param status: new status for the feature
+		:return:
+		"""
+		GPIO.output(feature, status)
