@@ -90,6 +90,7 @@ class LX6UI(QtWidgets.QMainWindow):
 	def __init__(self, hardware):
 		super().__init__()
 		self.manual_control_panel = ManualControlPanel()
+		self.scripted_control_panel = ScriptControlPanel()
 
 		self.setGeometry(100, 100, 460, 320)        # sized to fit a PiTFT screen
 		self.setWindowTitle('LX6 controller')
@@ -105,9 +106,16 @@ class LX6UI(QtWidgets.QMainWindow):
 		manual = toolbar.addAction('Manual')
 		manual.triggered.connect(self._select_manual_panel)
 
+		scripted = toolbar.addAction('Scripted')
+		scripted.triggered.connect(self._select_scripted_panel)
+
 	def _select_manual_panel(self):
 		# Set the manual control panel as the active center panel
 		self.setCentralWidget(self.manual_control_panel)
+
+	def _select_scripted_panel(self):
+		# Set the scripted control panel as the active center panel
+		self.setCentralWidget(self.scripted_control_panel)
 
 	def connect_model(self, event, model):
 		"""
