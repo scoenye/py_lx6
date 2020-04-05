@@ -22,7 +22,7 @@ from PyQt5 import QtWidgets
 from features import LX6, AUX
 
 
-class CenterPanel(QtWidgets.QWidget):
+class ManualControlPanel(QtWidgets.QWidget):
 	"""
 	Controller UI main panel
 	"""
@@ -71,7 +71,7 @@ class CenterPanel(QtWidgets.QWidget):
 class LX6UI(QtWidgets.QMainWindow):
 	def __init__(self, hardware):
 		super().__init__()
-		self.center_panel = CenterPanel()
+		self.center_panel = ManualControlPanel()
 
 		self.setGeometry(100, 100, 460, 320)        # sized to fit a PiTFT screen
 		self.setWindowTitle('LX6 controller')
