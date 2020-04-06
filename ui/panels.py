@@ -100,7 +100,7 @@ class ScriptControlPanel(QtWidgets.QWidget):
 
 
 class LX6UI(QtWidgets.QMainWindow):
-	def __init__(self, hardware):
+	def __init__(self, board):
 		super().__init__()
 		self.manual_control_panel = ManualControlPanel()
 		self.scripted_control_panel = ScriptControlPanel()
@@ -111,8 +111,7 @@ class LX6UI(QtWidgets.QMainWindow):
 		self.setCentralWidget(self.manual_control_panel)
 		self._create_toolbar()
 
-		for part in hardware:
-			part.connect_gui(self)
+		board.connect_gui(self)
 
 	def _create_toolbar(self):
 		toolbar = self.addToolBar('Test')

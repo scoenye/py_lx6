@@ -34,10 +34,8 @@ if __name__ == "__main__":
 	app = QApplication(sys.argv)
 	board = BoardV2()
 	board.initialize()
-	controller = Controller(board)
-	camera = Camera(board)
 
-	form = LX6UI([controller, camera])
+	form = LX6UI(board)
 	form.connect_automate(board)
 
 	form.show()
