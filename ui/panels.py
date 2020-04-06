@@ -73,10 +73,10 @@ class ScriptControlPanel(QtWidgets.QWidget):
 	"""
 	Control scripts launch panel
 	"""
-	def __init__(self):
+	def __init__(self, board):
 		super().__init__()
 		self.main_layout = QtWidgets.QGridLayout(self)
-		self._board = None
+		self._board = board
 
 		self._buttons = {
 			'align': QtWidgets.QPushButton('Align')
@@ -95,15 +95,12 @@ class ScriptControlPanel(QtWidgets.QWidget):
 		align_script = DriftAlign(self._board)
 		align_script.execute(exposure=60)
 
-	def connect_automate(self, board):
-		self._board = board
-
 
 class LX6UI(QtWidgets.QMainWindow):
 	def __init__(self, board):
 		super().__init__()
 		self.manual_control_panel = ManualControlPanel()
-		self.scripted_control_panel = ScriptControlPanel()
+		self.scripted_control_panel = ScriptControlPanel(board)
 
 		self.setGeometry(100, 100, 460, 320)        # sized to fit a PiTFT screen
 		self.setWindowTitle('LX6 controller')
@@ -140,11 +137,3 @@ class LX6UI(QtWidgets.QMainWindow):
 		"""
 		# Delegate to the center panel. All buttons live there.
 		self.manual_control_panel.connect_model(event, model)
-
-	def connect_automate(self, board):
-		"""
-		Connect the script handlers to the user interface
-		:param board: Instance of Board which will be controlled by the script
-		:return:
-		"""
-		self.scripted_control_panel.connect_automate(board)

@@ -36,7 +36,6 @@ if __name__ == "__main__":
 	board.initialize()
 
 	form = LX6UI(board)
-	form.connect_automate(board)
 
 	form.show()
 
