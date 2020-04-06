@@ -20,12 +20,8 @@
 
 import sys
 
-from time import sleep
+from PyQt5.QtWidgets import QApplication
 
-from PyQt5.QtWidgets import QApplication, QMainWindow
-
-from aux.camera import Camera
-from lx6.controller import Controller
 from pi.board import BoardV2
 from ui.panels import LX6UI
 

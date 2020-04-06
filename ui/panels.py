@@ -93,7 +93,7 @@ class ScriptControlPanel(QtWidgets.QWidget):
 
 	def _execute_drift_align(self):
 		align_script = DriftAlign(self._board)
-		align_script.execute(exposure=60)
+		align_script.execute(exposure=60)		# TODO: collect from UI
 
 
 class LX6UI(QtWidgets.QMainWindow):

@@ -80,15 +80,24 @@ class BoardV2(Board):
 	}
 
 	def __init__(self):
-		"""
-		:param board: Board through which the controller is connected to the Raspberry Pi
-		"""
 		self._east_west = ButtonPair(self.LX_pins[LX6.LX_EAST], self.LX_pins[LX6.LX_WEST])
 		self._north_south = ButtonPair(self.LX_pins[LX6.LX_NORTH], self.LX_pins[LX6.LX_SOUTH])
 		self._near_far = ButtonPair(self.LX_pins[LX6.LX_NEAR], self.LX_pins[LX6.LX_INFTY])
 		self._speed = Button(self.LX_pins[LX6.LX_SPEED])
 		self._drive = Button(self.LX_pins[LX6.LX_DRIVE])
 		self._shutter = Button(self.aux_pins[AUX.CAM_SHUTTER])
+
+		self._actions = {
+			LX6.LX_NEAR: self._near_far[0],
+			LX6.LX_INFTY: self._near_far[1],
+			LX6.LX_DRIVE: self._drive,
+			LX6.LX_SPEED: self._speed,
+			LX6.LX_NORTH: self._north_south[0],
+			LX6.LX_SOUTH: self._north_south[1],
+			LX6.LX_EAST: self._east_west[0],
+			LX6.LX_WEST: self._east_west[1],
+			AUX.CAM_SHUTTER: self._shutter
+		}
 
 	def initialize(self):
 		GPIO.setmode(GPIO.BCM)
@@ -109,14 +118,17 @@ class BoardV2(Board):
 		"""
 		External command interface.
 		:param feature: which feature to change
-		:param status: new status for the feature
+		:param status: new status for the feature. 1: on, 0: off
 		:return:
 		"""
-		GPIO.output(feature, status)
+		if status:
+			self._actions[feature].on()
+		else:
+			self._actions[feature].off()
 
 	def connect_gui(self, ui):
 		"""
-		Connect the controller's buttons to the interface
+		Connect the control buttons to the interface
 		:param ui: user interface instance
 		:return:
 		"""
