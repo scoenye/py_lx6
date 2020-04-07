@@ -87,6 +87,7 @@ class BoardV2(Board):
 		self._drive = Button(self.LX_pins[LX6.LX_DRIVE])
 		self._shutter = Button(self.aux_pins[AUX.CAM_SHUTTER])
 
+		# Connect the pins to buttons so they can be address from the automation scripts
 		self._actions = {
 			LX6.LX_NEAR: self._near_far[0],
 			LX6.LX_INFTY: self._near_far[1],
@@ -132,12 +133,5 @@ class BoardV2(Board):
 		:param ui: user interface instance
 		:return:
 		"""
-		ui.connect_model(LX6.LX_DRIVE, self._drive)
-		ui.connect_model(LX6.LX_SPEED, self._speed)
-		ui.connect_model(LX6.LX_NEAR, self._near_far[0])
-		ui.connect_model(LX6.LX_INFTY, self._near_far[1])
-		ui.connect_model(LX6.LX_NORTH, self._north_south[0])
-		ui.connect_model(LX6.LX_SOUTH, self._north_south[1])
-		ui.connect_model(LX6.LX_EAST, self._east_west[0])
-		ui.connect_model(LX6.LX_WEST, self._east_west[1])
-		ui.connect_model(AUX.CAM_SHUTTER, self._shutter)
+		for event, model in self._actions.items():
+			ui.connect_model(event, model)
