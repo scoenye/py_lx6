@@ -78,7 +78,7 @@ class AlignParameterPanel(QtWidgets.QWidget):
 		self.main_layout = QtWidgets.QGridLayout(self)
 		self._board = board
 
-		self._buttons = {
+		self._widgets = {
 			'execute': QtWidgets.QPushButton('Execute'),
 			'back': QtWidgets.QPushButton('Back')
 		}
@@ -86,8 +86,8 @@ class AlignParameterPanel(QtWidgets.QWidget):
 		self._assemble_panel()
 
 	def _assemble_panel(self):
-		self.main_layout.addWidget(self._buttons['back'], 0, 0, 1, 1)
-		self.main_layout.addWidget(self._buttons['execute'], 0, 1, 1, 1)
+		self.main_layout.addWidget(self._widgets['back'], 0, 0, 1, 1)
+		self.main_layout.addWidget(self._widgets['execute'], 0, 1, 1, 1)
 
 	def execute(self):
 		align_script = DriftAlign(self._board)
