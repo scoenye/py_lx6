@@ -84,14 +84,25 @@ class AlignParameterPanel(QtWidgets.QWidget):
 		}
 
 		self._assemble_panel()
+		self._connect_events()
 
 	def _assemble_panel(self):
 		self.main_layout.addWidget(self._widgets['back'], 0, 0, 1, 1)
 		self.main_layout.addWidget(self._widgets['execute'], 0, 1, 1, 1)
 
+	def _connect_events(self):
+		self._widgets['execute'].pressed.connect(self.execute)
+		self._widgets['back'].pressed.connect(self.back)
+
 	def execute(self):
 		align_script = DriftAlign(self._board)
-		align_script.execute(exposure=60)  # TODO: collect from UI
+		align_script.execute(exposure=6)  # TODO: collect from UI
+
+	def back(self):
+		# Replace this panel with the script control panel,
+		print('Got back?')
+		parent_panel = self.parentWidget()
+		parent_panel.show_panel(ScriptControlPanel(self._board), False)		# TODO: revise this to stop creating panels
 
 
 class ScriptControlPanel(QtWidgets.QWidget):
@@ -119,7 +130,7 @@ class ScriptControlPanel(QtWidgets.QWidget):
 	def _collect_parameters(self):
 		# Replace this panel with the parameter panel, but we need to keep ourselves around
 		parent_panel = self.parentWidget()
-		parent_panel.show_panel(AlignParameterPanel(self._board))
+		parent_panel.show_panel(AlignParameterPanel(self._board), True)
 
 
 class LX6UI(QtWidgets.QMainWindow):
@@ -154,13 +165,15 @@ class LX6UI(QtWidgets.QMainWindow):
 		self.centralWidget().setParent(None)  # Prevent deletion of current panel
 		self.setCentralWidget(self.scripted_control_panel)
 
-	def show_panel(self, panel):
+	def show_panel(self, panel, keep):
 		"""
 		Replace the central widget panel
-		:param panel:
+		:param panel: the panel to install as the new visible control panel
+		:param keep: whether or not to keep the current panel around
 		:return:
 		"""
-		self.centralWidget().setParent(None)
+		if keep:
+			self.centralWidget().setParent(None)
 		self.setCentralWidget(panel)
 
 	def connect_model(self, event, model):
