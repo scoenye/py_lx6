@@ -23,8 +23,7 @@ import sys
 from PyQt5.QtWidgets import QApplication
 
 from pi.board import BoardV2
-from ui.panels import LX6UI
-
+from ui.panels.core import LX6UI
 
 if __name__ == "__main__":
 	app = QApplication(sys.argv)
