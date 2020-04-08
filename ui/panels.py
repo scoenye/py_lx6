@@ -69,6 +69,31 @@ class ManualControlPanel(QtWidgets.QWidget):
 			button.released.connect(model.off)
 
 
+class AlignParameterPanel(QtWidgets.QWidget):
+	"""
+	Collect the exposure parameter and launch the alignment run
+	"""
+	def __init__(self, board):
+		super().__init__()
+		self.main_layout = QtWidgets.QGridLayout(self)
+		self._board = board
+
+		self._buttons = {
+			'execute': QtWidgets.QPushButton('Execute'),
+			'back': QtWidgets.QPushButton('Back')
+		}
+
+		self._assemble_panel()
+
+	def _assemble_panel(self):
+		self.main_layout.addWidget(self._buttons['back'], 0, 0, 1, 1)
+		self.main_layout.addWidget(self._buttons['execute'], 0, 1, 1, 1)
+
+	def execute(self):
+		align_script = DriftAlign(self._board)
+		align_script.execute(exposure=60)  # TODO: collect from UI
+
+
 class ScriptControlPanel(QtWidgets.QWidget):
 	"""
 	Control scripts launch panel
@@ -89,11 +114,12 @@ class ScriptControlPanel(QtWidgets.QWidget):
 		self.main_layout.addWidget(self._buttons['align'], 0, 0, 1, 1)
 
 	def _connect_events(self):
-		self._buttons['align'].clicked.connect(self._execute_drift_align)
+		self._buttons['align'].clicked.connect(self._collect_parameters)
 
-	def _execute_drift_align(self):
-		align_script = DriftAlign(self._board)
-		align_script.execute(exposure=60)		# TODO: collect from UI
+	def _collect_parameters(self):
+		# Replace this panel with the parameter panel, but we need to keep ourselves around
+		parent_panel = self.parentWidget()
+		parent_panel.show_panel(AlignParameterPanel(self._board))
 
 
 class LX6UI(QtWidgets.QMainWindow):
@@ -127,6 +153,15 @@ class LX6UI(QtWidgets.QMainWindow):
 		# Set the scripted control panel as the active center panel
 		self.centralWidget().setParent(None)  # Prevent deletion of current panel
 		self.setCentralWidget(self.scripted_control_panel)
+
+	def show_panel(self, panel):
+		"""
+		Replace the central widget panel
+		:param panel:
+		:return:
+		"""
+		self.centralWidget().setParent(None)
+		self.setCentralWidget(panel)
 
 	def connect_model(self, event, model):
 		"""
