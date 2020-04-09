@@ -21,9 +21,10 @@ from PyQt5 import QtWidgets
 
 from features import LX6, AUX
 from ui.panels.automate import AlignParameterPanel
+from ui.panels.common import CentralPanel
 
 
-class ManualControlPanel(QtWidgets.QWidget):
+class ManualControlPanel(CentralPanel):
 	"""
 	Controller UI main panel
 	"""
@@ -75,7 +76,7 @@ class ManualControlPanel(QtWidgets.QWidget):
 		return True
 
 
-class ScriptControlPanel(QtWidgets.QWidget):
+class ScriptControlPanel(CentralPanel):
 	"""
 	Control scripts launch panel
 	"""

@@ -20,9 +20,10 @@
 from PyQt5 import QtWidgets
 
 from lx6.automate import DriftAlign
+from ui.panels.common import CentralPanel
 
 
-class AlignParameterPanel(QtWidgets.QWidget):
+class AlignParameterPanel(CentralPanel):
 	"""
 	Collect the exposure parameter and launch the alignment run
 	"""
