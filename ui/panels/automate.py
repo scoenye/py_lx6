@@ -20,7 +20,6 @@
 from PyQt5 import QtWidgets
 
 from lx6.automate import DriftAlign
-from ui.panels.core import ScriptControlPanel
 
 
 class AlignParameterPanel(QtWidgets.QWidget):
@@ -56,4 +55,10 @@ class AlignParameterPanel(QtWidgets.QWidget):
 		# Replace this panel with the script control panel,
 		print('Got back?')
 		parent_panel = self.parentWidget()
-		parent_panel.show_panel(ScriptControlPanel(self._board), False)		# TODO: revise this to stop creating panels
+		parent_panel.show_panel(None)
+
+	def keep(self):
+		"""
+		:return: False - this panel can be discarded
+		"""
+		return False

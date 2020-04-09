@@ -68,6 +68,12 @@ class ManualControlPanel(QtWidgets.QWidget):
 			button.pressed.connect(model.on)
 			button.released.connect(model.off)
 
+	def keep(self):
+		"""
+		:return: True - we want to keep the state of the buttons
+		"""
+		return True
+
 
 class ScriptControlPanel(QtWidgets.QWidget):
 	"""
@@ -93,8 +99,14 @@ class ScriptControlPanel(QtWidgets.QWidget):
 
 	def _collect_parameters(self):
 		# Replace this panel with the parameter panel, but we need to keep ourselves around
-		parent_panel = self.parentWidget()
-		parent_panel.show_panel(AlignParameterPanel(self._board), True)
+		parent_panel = self.parentWidget()		# Better be the LX6UI main window
+		parent_panel.show_panel(AlignParameterPanel(self._board))
+
+	def keep(self):
+		"""
+		:return: True - panel at the same level as the manual control panel
+		"""
+		return True
 
 
 class LX6UI(QtWidgets.QMainWindow):
@@ -102,6 +114,7 @@ class LX6UI(QtWidgets.QMainWindow):
 		super().__init__()
 		self.manual_control_panel = ManualControlPanel()
 		self.scripted_control_panel = ScriptControlPanel(board)
+		self._panel_stack = []
 
 		self.setGeometry(100, 100, 460, 320)        # sized to fit a PiTFT screen
 		self.setWindowTitle('LX6 controller')
@@ -121,21 +134,28 @@ class LX6UI(QtWidgets.QMainWindow):
 
 	def _select_manual_panel(self):
 		# Set the manual control panel as the active center panel
-		self.show_panel(self.manual_control_panel, True)
+		self._panel_stack = []		# Direct set - clear any prior travel between panels
+		self.show_panel(self.manual_control_panel)
 
 	def _select_scripted_panel(self):
 		# Set the scripted control panel as the active center panel
-		self.show_panel(self.scripted_control_panel, True)
+		self._panel_stack = []		# Direct set - clear any prior travel between panels
+		self.show_panel(self.scripted_control_panel)
 
-	def show_panel(self, panel, keep):
+	def show_panel(self, panel):
 		"""
 		Replace the central widget panel
-		:param panel: the panel to install as the new visible control panel
-		:param keep: whether or not to keep the current panel around
+		:param panel: the panel to install as the new visible control panel. None to pop a prior panel from the stack.
 		:return:
 		"""
-		if keep:
-			self.centralWidget().setParent(None)
+		current = self.centralWidget()
+		if current.keep():
+			current.setParent(None)
+			self._panel_stack.append(current)
+
+		if panel is None:
+			panel = self._panel_stack.pop()
+
 		self.setCentralWidget(panel)
 
 	def connect_model(self, event, model):
