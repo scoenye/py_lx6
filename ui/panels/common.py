@@ -33,3 +33,22 @@ class CentralPanel(QtWidgets.QWidget):
 		Indicate if this panel should be kept or discarded when the central widget is replaced.
 		:return: True to prevent this panel from being destroyed, False to indicate it should be discarded.
 		"""
+
+
+class ParameterPanel(CentralPanel):
+	"""
+	Interface for the parameter collection classes.
+	"""
+	@abstractmethod
+	def execute(self):
+		"""
+		Execute the automation this panel collected parameters for.
+		:return:
+		"""
+
+	@abstractmethod
+	def back(self):
+		"""
+		Return to the panel that invoked this parameter panel
+		:return:
+		"""
