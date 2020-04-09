@@ -121,13 +121,11 @@ class LX6UI(QtWidgets.QMainWindow):
 
 	def _select_manual_panel(self):
 		# Set the manual control panel as the active center panel
-		self.centralWidget().setParent(None)				# Prevent deletion of current panel
-		self.setCentralWidget(self.manual_control_panel)
+		self.show_panel(self.manual_control_panel, True)
 
 	def _select_scripted_panel(self):
 		# Set the scripted control panel as the active center panel
-		self.centralWidget().setParent(None)  # Prevent deletion of current panel
-		self.setCentralWidget(self.scripted_control_panel)
+		self.show_panel(self.scripted_control_panel, True)
 
 	def show_panel(self, panel, keep):
 		"""
