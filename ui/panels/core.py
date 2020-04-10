@@ -168,3 +168,12 @@ class LX6UI(QtWidgets.QMainWindow):
 		"""
 		# Delegate to the center panel. All buttons live there.
 		self.manual_control_panel.connect_model(event, model)
+
+	def feedback(self, status_text):
+		"""
+		Show status updates issued by the automation classes
+		:param status_text: new message to show in the status bar
+		:return:
+		"""
+		self.statusBar().showMessage(status_text)
+		self.statusBar().repaint()		# Status bar updates are blocked while the automation is active (even if asleep)

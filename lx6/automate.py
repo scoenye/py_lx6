@@ -27,8 +27,9 @@ class Script(ABC):
 	"""
 	Interface for the automated control scripts
 	"""
-	def __init__(self, board):
+	def __init__(self, board, reporter=None):
 		self._board = board
+		self._reporter = reporter		# Target for status updates
 
 	@abstractmethod
 	def execute(self, **kwargs):
@@ -37,6 +38,10 @@ class Script(ABC):
 		:param kwargs: keyword parameters specific to the script.
 		:return:
 		"""
+
+	def _feedback(self, update):
+		if self._reporter:
+			self._reporter.feedback(update)
 
 
 class DriftAlign(Script):
@@ -49,10 +54,17 @@ class DriftAlign(Script):
 		:param kwargs: exposure - time in seconds for each leg of the alignment run.
 		:return:
 		"""
+		self._feedback('Paint marker dot')
 		self._board.command(AUX.CAM_SHUTTER, 1)
 		sleep(10)										# Paint dot
+
+		self._feedback('Going west')
 		self._board.command(LX6.LX_WEST, 1)
 		sleep(kwargs['exposure'])						# One leg of the V
+
+		self._feedback('Going east')
 		self._board.command(LX6.LX_EAST, 1)
 		sleep(kwargs['exposure'])						# Other leg of the V
+
 		self._board.command(AUX.CAM_SHUTTER, 0)
+		self._feedback('Ready')

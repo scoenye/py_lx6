@@ -56,7 +56,7 @@ class AlignParameterPanel(ParameterPanel):
 		self._widgets['back'].pressed.connect(self.back)
 
 	def execute(self):
-		align_script = DriftAlign(self._board)
+		align_script = DriftAlign(self._board, self)
 		align_script.execute(exposure=int(self._widgets['exposure'].text()))
 
 	def back(self):
@@ -69,3 +69,4 @@ class AlignParameterPanel(ParameterPanel):
 		:return: False - this panel can be discarded
 		"""
 		return False
+

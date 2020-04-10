@@ -52,3 +52,11 @@ class ParameterPanel(CentralPanel):
 		Return to the panel that invoked this parameter panel
 		:return:
 		"""
+
+	def feedback(self, status_text):
+		"""
+		Show feedback/progress in the main window status bar
+		:param status_text: text to show in the status bar
+		:return:
+		"""
+		self.parentWidget().feedback(status_text)
