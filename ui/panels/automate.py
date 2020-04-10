@@ -40,7 +40,7 @@ class AlignParameterPanel(ParameterPanel):
 		}
 
 		self._widgets['exposure'].setValidator(QtGui.QIntValidator())		# Number only for the exposure values
-		self._widgets['exposure'].setMaximumWidth(96)
+		self._widgets['exposure'].setMaximumWidth(88)						# ~8 chars @ 11 pts
 
 		self._assemble_panel()
 		self._connect_events()
@@ -57,11 +57,10 @@ class AlignParameterPanel(ParameterPanel):
 
 	def execute(self):
 		align_script = DriftAlign(self._board)
-		align_script.execute(exposure=6)  # TODO: collect from UI
+		align_script.execute(exposure=int(self._widgets['exposure'].text()))
 
 	def back(self):
 		# Replace this panel with the script control panel,
-		print('Got back?')
 		parent_panel = self.parentWidget()
 		parent_panel.show_panel(None)
 
