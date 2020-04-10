@@ -17,7 +17,7 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui
 
 from lx6.automate import DriftAlign
 from ui.panels.common import ParameterPanel
@@ -33,16 +33,23 @@ class AlignParameterPanel(ParameterPanel):
 		self._board = board
 
 		self._widgets = {
+			'exp_label': QtWidgets.QLabel('Exposure:'),
+			'exposure': QtWidgets.QLineEdit('120'),
 			'execute': QtWidgets.QPushButton('Execute'),
 			'back': QtWidgets.QPushButton('Back')
 		}
+
+		self._widgets['exposure'].setValidator(QtGui.QIntValidator())		# Number only for the exposure values
+		self._widgets['exposure'].setMaximumWidth(96)
 
 		self._assemble_panel()
 		self._connect_events()
 
 	def _assemble_panel(self):
-		self.main_layout.addWidget(self._widgets['back'], 0, 0, 1, 1)
-		self.main_layout.addWidget(self._widgets['execute'], 0, 1, 1, 1)
+		self.main_layout.addWidget(self._widgets['exp_label'], 0, 0, 1, 1)
+		self.main_layout.addWidget(self._widgets['exposure'], 0, 1, 1, 1)
+		self.main_layout.addWidget(self._widgets['back'], 1, 0, 1, 1)
+		self.main_layout.addWidget(self._widgets['execute'], 1, 2, 1, 1)
 
 	def _connect_events(self):
 		self._widgets['execute'].pressed.connect(self.execute)
