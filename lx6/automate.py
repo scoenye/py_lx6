@@ -66,5 +66,6 @@ class DriftAlign(Script):
 		self._board.command(LX6.LX_EAST, 1)
 		sleep(kwargs['exposure'])						# Other leg of the V
 
+		self._board.command(LX6.LX_EAST, 0)
 		self._board.command(AUX.CAM_SHUTTER, 0)
 		self._feedback('Ready')
