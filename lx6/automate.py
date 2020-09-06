@@ -69,3 +69,23 @@ class DriftAlign(Script):
 		self._board.command(LX6.LX_EAST, 0)
 		self._board.command(AUX.CAM_SHUTTER, 0)
 		self._feedback('Ready')
+
+
+class SimpleExposure(Script):
+	"""
+	Repeated unguided timed exposures
+	"""
+	def execute(self, **kwargs):
+		"""
+		Execute the exposure script
+		:param kwargs: exposure - time in seconds for each exposure; repeats: number of exposures to take
+		:return:
+		"""
+		for exposure in range(1, kwargs['repeats'] + 1):
+			self._feedback('Exposure {}/{}'.format(exposure, kwargs['repeats']))
+			self._board.command(AUX.CAM_SHUTTER, 1)
+			sleep(kwargs['exposure'])
+			self._board.command(AUX.CAM_SHUTTER, 0)
+			sleep(0.2)    # Give camera time to process image, cycle shutter, ...
+
+		self._feedback('Ready')

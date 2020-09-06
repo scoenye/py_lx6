@@ -20,7 +20,7 @@
 from PyQt5 import QtWidgets
 
 from features import LX6, AUX
-from ui.panels.automate import AlignParameterPanel
+from ui.panels.automate import AlignParameterPanel, SimpleExposureParameterPanel
 from ui.panels.common import CentralPanel
 
 
@@ -86,7 +86,8 @@ class ScriptControlPanel(CentralPanel):
 		self._board = board
 
 		self._buttons = {
-			'align': QtWidgets.QPushButton('Align')
+			'align': QtWidgets.QPushButton('Align'),
+			'unguided': QtWidgets.QPushButton('Unguided exposure')
 		}
 
 		self._assemble_panel()
@@ -94,14 +95,21 @@ class ScriptControlPanel(CentralPanel):
 
 	def _assemble_panel(self):
 		self.main_layout.addWidget(self._buttons['align'], 0, 0, 1, 1)
+		self.main_layout.addWidget(self._buttons['unguided'], 1, 0, 1, 1)
 
 	def _connect_events(self):
 		self._buttons['align'].clicked.connect(self._collect_parameters)
+		self._buttons['unguided'].clicked.connect(self._unguided_parameters)
 
 	def _collect_parameters(self):
 		# Replace this panel with the parameter panel, but we need to keep ourselves around
 		parent_panel = self.parentWidget()		# Better be the LX6UI main window
 		parent_panel.show_panel(AlignParameterPanel(self._board))
+
+	def _unguided_parameters(self):
+		# Replace this panel with the parameter panel, but we need to keep ourselves around
+		parent_panel = self.parentWidget()  # Better be the LX6UI main window
+		parent_panel.show_panel(SimpleExposureParameterPanel(self._board))
 
 	def keep(self):
 		"""

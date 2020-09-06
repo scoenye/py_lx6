@@ -19,7 +19,7 @@
 """
 from PyQt5 import QtWidgets, QtGui
 
-from lx6.automate import DriftAlign
+from lx6.automate import DriftAlign, SimpleExposure
 from ui.panels.common import ParameterPanel
 
 
@@ -70,3 +70,58 @@ class AlignParameterPanel(ParameterPanel):
 		"""
 		return False
 
+
+class SimpleExposureParameterPanel(ParameterPanel):
+	"""
+	Collect the exposure time and number of exposures to take
+	"""
+	def __init__(self, board):
+		super().__init__()
+		self.main_layout = QtWidgets.QGridLayout(self)
+		self._board = board
+
+		self._widgets = {
+			'exp_label': QtWidgets.QLabel('Exposure:'),
+			'exposure': QtWidgets.QLineEdit('120'),
+			'rep_label': QtWidgets.QLabel('Repeats'),
+			'repeats': QtWidgets.QLineEdit('1'),
+			'execute': QtWidgets.QPushButton('Execute'),
+			'back': QtWidgets.QPushButton('Back')
+		}
+
+		self._widgets['exposure'].setValidator(QtGui.QIntValidator())  # Number only for the exposure values
+		self._widgets['exposure'].setMaximumWidth(88)  # ~8 chars @ 11 pts
+
+		self._widgets['repeats'].setValidator(QtGui.QIntValidator())	# Number only for the repeat count
+		self._widgets['repeats'].setMaximumWidth(88)
+
+		self._assemble_panel()
+		self._connect_events()
+
+	def _assemble_panel(self):
+		self.main_layout.addWidget(self._widgets['exp_label'], 0, 0, 1, 1)
+		self.main_layout.addWidget(self._widgets['exposure'], 0, 1, 1, 1)
+		self.main_layout.addWidget(self._widgets['rep_label'], 1, 0, 1, 1)
+		self.main_layout.addWidget(self._widgets['repeats'], 1, 1, 1, 1)
+		self.main_layout.addWidget(self._widgets['back'], 2, 0, 1, 1)
+		self.main_layout.addWidget(self._widgets['execute'], 2, 2, 1, 1)
+
+	def _connect_events(self):
+		self._widgets['execute'].pressed.connect(self.execute)
+		self._widgets['back'].pressed.connect(self.back)
+
+	def execute(self):
+		script = SimpleExposure(self._board, self)
+		script.execute(exposure=int(self._widgets['exposure'].text()),
+						repeats=int(self._widgets['repeats'].text()))
+
+	def back(self):
+		# Replace this panel with the script control panel,
+		parent_panel = self.parentWidget()
+		parent_panel.show_panel(None)
+
+	def keep(self):
+		"""
+		:return: False - this panel can be discarded
+		"""
+		return False
